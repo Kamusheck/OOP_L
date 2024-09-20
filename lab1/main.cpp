@@ -1,5 +1,5 @@
 #include <iostream>
-#include "include/findnum.h"
+#include "findnum.h"
 
 int main() {
     std::string str;

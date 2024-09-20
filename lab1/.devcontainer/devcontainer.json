@@ -1,16 +1,15 @@
 {
-  "name": "lab1",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
-  "settings": {
-    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
-    "C_Cpp.default.intelliSenseMode": "linux-gcc-x64"
-  },
+  "name": "C++ MAI Lecture Examples",
+  "dockerFile": "Dockerfile",
+  "context": "..",
+  "appPort": [],
   "extensions": [
-    "ms-vscode.cmake-tools",
-    "ms-vscode.cpptools",
-    "ms-vscode.cmake-tools"
+      "ms-vscode.cpptools",
+      "vscode.cpptools-extension-pack",
+      "ms-vscode.cmake-tools"
   ],
-  "postCreateCommand": "mkdir build && cd build && cmake .. && make"
+  "settings": {
+      "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "postCreateCommand": "apt-get update && apt-get install -y cmake && git config --global --add safe.directory '*'"
 }

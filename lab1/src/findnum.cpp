@@ -1,6 +1,6 @@
-#include "../include/findnum.h"
+#include "findnum.h"
 
-std::string findnum(const std::string& str) {
+std::string findnum(const std::string str) {
     std::string result;
     std::string number;
 

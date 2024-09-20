@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../include/findnum.h"
+#include "findnum.h"
 
 TEST(test_01, basic_test_set)
 {

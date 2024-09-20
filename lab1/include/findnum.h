@@ -3,6 +3,5 @@
 #include <iostream>
 #include <cctype>
 #include <string>
-#include <string>
 
-std::string findnum(std::string);
+std::string findnum(const std::string str);
