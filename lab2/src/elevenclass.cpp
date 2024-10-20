@@ -1,6 +1,10 @@
 #include "elevenclass.hpp"
 #include "vector.hpp"
 
+Eleven::Eleven() {
+    digits.resize(0);
+}
+
 unsigned long long Eleven::to_tencc() const{
     unsigned long long result = 0;
     unsigned long long pow = 1;
@@ -24,7 +28,7 @@ void Eleven::from_tencc(unsigned long long value) {
 Eleven::Eleven(const std::string& str){
     for(auto s = str.rbegin(); s != str.rend(); ++s){
         char c = *s;
-        if(c >= '0' && c <= 9){
+        if(c >= '0' && c <= '9'){
             digits.pushback(c- '0');
         }
         else if(c == 'A'){
@@ -71,18 +75,10 @@ bool Eleven::operator<(const Eleven& other) const{
     return to_tencc()<other.to_tencc();
 }
 
-void Eleven::print() const {
+void Eleven::print(std::ostream& os) const {
     for (size_t i = digits.getsize(); i > 0; --i) {
         unsigned char digit = digits[i - 1];
-        std::cout << (digit < 10 ? char('0' + digit) : char('A' + (digit - 10)));
+        os << (digit < 10 ? char('0' + digit) : char('A' + (digit - 10)));
     }
-    std::cout << std::endl;
-
-std::ostream& operator<<(std::ostream& os, const Eleven& num) {
-    for (size_t i = num.digits.get_size(); i > 0; --i) {
-        unsigned char digit = num.digits[i - 1];
-        os << (digit < 10 ? '0' + digit : 'A');
-    }
-    return os;
+    os << '\n';
 }
-};

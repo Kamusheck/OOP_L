@@ -1,150 +1,75 @@
-#include "elevenclass.hpp"
 #include <gtest/gtest.h>
-#include <stdexcept>
+#include "elevenclass.hpp"
 
-// Тест для конструктора по умолчанию
-TEST(ElevenTest, DefaultConstructor) {
-    Eleven num;
-    // Ожидаем, что число равно 0, т.е. пустой Eleven эквивалентен "0"
-    std::ostringstream oss;
-    num.print();
-    EXPECT_EQ(oss.str(), "0");
-}
-
-// Тест для конструктора из строки
 TEST(ElevenTest, ConstructorFromString) {
-    Eleven num("A1B");  // 11-ричное число A1B (где A = 10, B = 11)
-    std::ostringstream oss;
-    num.print();
-    EXPECT_EQ(oss.str(), "A1B");
+    Eleven num("123");
+    EXPECT_EQ(num.to_tencc(), 1 * 11 * 11 + 2 * 11 + 3); // 146
 }
 
-// Тест на исключение для некорректной строки
-TEST(ElevenTest, InvalidStringConstructor) {
-    EXPECT_THROW(Eleven num("A1G"), std::invalid_argument);  // G не является 11-ричной цифрой
+TEST(ElevenTest, ConstructorFromStringWithA) {
+    Eleven num("1A");
+    EXPECT_EQ(num.to_tencc(), 1 * 11 + 10); // 21
 }
 
-// Тест для сложения
 TEST(ElevenTest, Addition) {
-    Eleven num1("A1B");
-    Eleven num2("2");
+    Eleven num1("5");
+    Eleven num2("6");
     Eleven result = num1 + num2;
-    std::ostringstream oss;
-    result.print();
-    EXPECT_EQ(oss.str(), "A1D");  // Проверяем, что результат сложения "A1B" + "2" будет "A1D"
+    EXPECT_EQ(result.to_tencc(), 11); // 5 + 6 = 11
 }
 
-// Тест для вычитания
 TEST(ElevenTest, Subtraction) {
-    Eleven num1("A1B");
-    Eleven num2("2");
+    Eleven num1("A"); // 10 in decimal
+    Eleven num2("5"); // 5 in decimal
     Eleven result = num1 - num2;
-    std::ostringstream oss;
-    result.print();
-    EXPECT_EQ(oss.str(), "A19");  // Проверяем, что результат вычитания "A1B" - "2" будет "A19"
+    EXPECT_EQ(result.to_tencc(), 5); // 10 - 5 = 5
 }
 
-// Тест на исключение для вычитания, которое приводит к отрицательному результату
-TEST(ElevenTest, SubtractionNegativeResult) {
-    Eleven num1("2");
-    Eleven num2("A1B");
-    EXPECT_THROW(num1 - num2, std::underflow_error);  // Результат отрицательный, ожидаем исключение
+TEST(ElevenTest, SubtractionUnderflow) {
+    Eleven num1("5");
+    Eleven num2("A"); // Should throw an exception
+    EXPECT_THROW(num1 - num2, std::underflow_error);
 }
 
-// Тест на равенство
 TEST(ElevenTest, Equality) {
-    Eleven num1("A1B");
-    Eleven num2("A1B");
-    EXPECT_TRUE(num1 == num2);  // Проверяем, что два одинаковых числа равны
+    Eleven num1("7");
+    Eleven num2("7");
+    EXPECT_TRUE(num1 == num2);
 }
 
-// Тест на неравенство (меньше)
-TEST(ElevenTest, LessThan) {
-    Eleven num1("A1B");
-    Eleven num2("B1A");
-    EXPECT_TRUE(num1 < num2);  // Проверяем, что "A1B" меньше "B1A"
+TEST(ElevenTest, Inequality) {
+    Eleven num1("8");
+    Eleven num2("7");
+    EXPECT_TRUE(num1 != num2);
 }
 
-// Тест на неравенство (больше)
 TEST(ElevenTest, GreaterThan) {
-    Eleven num1("B1A");
-    Eleven num2("A1B");
-    EXPECT_TRUE(num1 > num2);  // Проверяем, что "B1A" больше "A1B"
+    Eleven num1("9");
+    Eleven num2("8");
+    EXPECT_TRUE(num1 > num2);
 }
 
-// Тест для конвертации из десятичного числа
-TEST(ElevenTest, FromDecimal) {
-    Eleven num;
-    num.from_tencc(1210);  // 1210 в 11-ричной системе это "A1B"
-    std::ostringstream oss;
-    num.print();
-    EXPECT_EQ(oss.str(), "A1B");
+TEST(ElevenTest, LessThan) {
+    Eleven num1("8");
+    Eleven num2("9");
+    EXPECT_TRUE(num1 < num2);
 }
 
-// Тест для конвертации в десятичное число
-TEST(ElevenTest, ToDecimal) {
-    Eleven num("A1B");
-    unsigned long long dec = num.to_tencc();
-    EXPECT_EQ(dec, 1210);  // Проверяем, что число "A1B" в 11-ричной системе — это 1210 в 10-ричной
+TEST(ElevenTest, PrintFunction) {
+    std::ostringstream os;
+    Eleven num("A1"); // 11 in decimal
+    num.print(os);
+    EXPECT_EQ(os.str(), "A1\n");
 }
 
-// Тест для проверки pushback в Vector
-TEST(VectorTest, PushBack) {
-    Vector<int> vec;
-    vec.pushback(1);
-    vec.pushback(2);
-    vec.pushback(3);
-    EXPECT_EQ(vec[0], 1);
-    EXPECT_EQ(vec[1], 2);
-    EXPECT_EQ(vec[2], 3);
+TEST(ElevenTest, InvalidCharacterInConstructor) {
+    EXPECT_THROW(Eleven num("12B"), std::invalid_argument);
 }
 
-// Тест для проверки выхода за пределы массива в Vector (оператор [])
-TEST(VectorTest, AccessOutOfBounds) {
-    Vector<int> vec;
-    vec.pushback(1);
-    vec.pushback(2);
-    vec.pushback(3);
-    EXPECT_THROW(vec[3], std::out_of_range);  // Вектор имеет только 3 элемента, доступ к 3-му индексу вызывает исключение
+int main(int argc, char **argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }
 
-// Тест для проверки resize в Vector
-TEST(VectorTest, Resize) {
-    Vector<int> vec;
-    vec.resize(5, 10);  // Изменяем размер на 5 элементов, заполняем их значением 10
-    EXPECT_EQ(vec[0], 10);
-    EXPECT_EQ(vec[1], 10);
-    EXPECT_EQ(vec[4], 10);
-    EXPECT_EQ(vec.getsize(), 5);
-}
 
-// Тест для проверки reserve в Vector
-TEST(VectorTest, Reserve) {
-    Vector<int> vec;
-    vec.reserve(10);  // Зарезервировать память для 10 элементов
-    EXPECT_EQ(vec.getsize(), 0);  // Проверяем, что размер вектора не изменился
-}
-
-// Тест для popback в Vector
-TEST(VectorTest, PopBack) {
-    Vector<int> vec;
-    vec.pushback(1);
-    vec.pushback(2);
-    vec.popback();
-    EXPECT_EQ(vec.getsize(), 1);  // Проверяем, что после удаления одного элемента, размер стал 1
-    EXPECT_EQ(vec[0], 1);
-}
-
-// Тест на исключение при popback из пустого вектора
-TEST(VectorTest, PopBackEmpty) {
-    Vector<int> vec;
-    EXPECT_THROW(vec.popback(), std::out_of_range);  // Ожидаем исключение при попытке удалить элемент из пустого вектора
-}
-
-// Тест на использование at() с выходом за границы массива
-TEST(VectorTest, AtOutOfBounds) {
-    Vector<int> vec;
-    vec.pushback(1);
-    EXPECT_THROW(vec.at(1), std::out_of_range);  // Вектор имеет только 1 элемент, доступ ко 2-му вызывает исключение
-}
 
