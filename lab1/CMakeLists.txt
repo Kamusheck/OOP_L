@@ -40,3 +40,5 @@ target_link_libraries(tests ${CMAKE_PROJECT_NAME}_lib gtest_main)
 
 # Добавление тестов в тестовый набор
 add_test(NAME Tests COMMAND tests)
+
+# cmake -S . -B build cmake --build build

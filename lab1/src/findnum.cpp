@@ -1,6 +1,6 @@
 #include "findnum.h"
 
-std::string findnum(const std::string str) {
+std::string findnum(const std::string &str) {
     std::string result;
     std::string number;
 
@@ -14,7 +14,7 @@ std::string findnum(const std::string str) {
             }
         }
     }
-    if (!number.empty()) {
+    if (!number.empty()) {  //проверка на случай, если строчка заканчивается цифрой
         result += number;
     }
     return result;
