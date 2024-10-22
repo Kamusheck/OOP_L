@@ -2,7 +2,6 @@
 #include "vector.hpp"
 
 Eleven::Eleven() {
-    digits.resize(0);
 }
 
 Eleven::Eleven(const Eleven& other){

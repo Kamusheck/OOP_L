@@ -95,11 +95,13 @@ public:
         if (sz <= capacity) {
             return;
         }
-        T* newdata = reinterpret_cast<T*>(new int8_t[sz * sizeof(T)]);
+        // T* newdataa = new T(sz)просто new не оч- так как создается  sz кол-во объектов, нам просто нужно зарезрвировать память под них
+        T* newdata = reinterpret_cast<T*>(new int8_t[sz * sizeof(T)]);//сначала выделяем вамять для массива в инт8 байт, 'переопределяем' в Т, выделяется sz байт
         size_t i = 0;
         try {
             for (i = 0; i < size; ++i) {
-                new(newdata + i) T(data[i]);
+                //newdata[i] = data[i] - нельзя так как нужно чтобы право и лево было сконструировано,а левое не скоинструировано- уб
+                new(newdata + i) T(data[i]); //placement new, кладем в какую то память 
             }
         } catch (...) {
             for (size_t j = 0; j < i; --j) {  // грубо говоря - откат изменений
@@ -111,6 +113,7 @@ public:
         for (i = 0; i < size; ++i) { // явный вызов деструктора
             (data + i)->~T();
         }
+        //delete[] data - уб, так как освобождает память от new, но модет вызвать деструктор для всех объектов, но част из них непроиницилизировано,(например size< capacity)
         delete[] reinterpret_cast<int8_t*>(data);
         data = newdata;
         capacity = sz;
