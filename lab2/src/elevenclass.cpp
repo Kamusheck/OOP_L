@@ -5,15 +5,43 @@ Eleven::Eleven() {
     digits.resize(0);
 }
 
-unsigned long long Eleven::to_tencc() const{
+Eleven::Eleven(const Eleven& other){
+    digits= other.digits;
+}
+
+Eleven::Eleven(Eleven&& other){
+    digits = std::move(other.digits);
+}
+
+Eleven& Eleven::operator=(const Eleven& other){
+    if(this != &other){
+        digits = other.digits;
+    }
+    return *this;
+}
+
+Eleven& Eleven::operator=(Eleven&& other) {
+    if (this != &other) {
+        digits.resize(0);
+        digits = std::move(other.digits);
+        other.digits.resize(0);
+    }
+    return *this;
+}
+
+unsigned long long Eleven::to_tencc() const {
+    if (digits.getsize() == 0) {
+        return 0;
+    } 
     unsigned long long result = 0;
     unsigned long long pow = 1;
-    for (size_t i = 0 ; i < digits.getsize(); ++i ){
+    for (size_t i = 0; i < digits.getsize(); ++i) {
         result += digits[i] * pow;
         pow *= 11;
     }
     return result;
-};
+}
+
 
 void Eleven::from_tencc(unsigned long long value) {
     digits.resize(0);

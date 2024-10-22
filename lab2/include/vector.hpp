@@ -120,12 +120,17 @@ public:
         if (sz > capacity) {
             reserve(sz);
         }
-        for (size_t i = size; i < sz; ++i) {
+        if(sz >size){
+            for (size_t i = size; i < sz; ++i) {
             new(data + i) T(value);
         }
-        if (sz < size) {
-            size = sz;
         }
+        else if (sz < size) {
+          for (size_t i = sz; i < size; ++i) {
+            data[i].~T();  // Вызываем деструктор для лишних элементов
+            }
+        }
+        size = sz;
     }
 
     void pushback(const T& value) {
