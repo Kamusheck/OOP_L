@@ -1,18 +1,10 @@
 #pragma once
 #include "vector.hpp"
-#include "figure.hpp"
+#include "method.hpp"
 
-class Hexagon: public Figure{
-private:
-    Vector<std::pair<double, double>> ups;
-
+class Hexagon : public Method {
 public:
-    Hexagon() = default;
-    std::pair<double, double> Center() const override;
-    double Space() const override;
+    Hexagon();
     void Print(std::ostream& out) const override;
     void Input(std::istream& in) override;
-    Hexagon& operator=(const Hexagon& other);
-    Hexagon& operator=(Hexagon&& other);
-    bool operator==(const Figure& other) const override;
 };
