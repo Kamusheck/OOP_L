@@ -2,7 +2,6 @@
 #include "bilist.hpp"
 #include <gtest/gtest.h>
 
-
 struct ComplexType {
     int id;
     std::string name;
