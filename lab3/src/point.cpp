@@ -84,7 +84,7 @@ bool Point::operator>(const Point &other) const noexcept {
     return this->y > other.y;
 }
 
-double triangle_area(const Point &a, const Point &b) noexcept {
+double are_piece(const Point &a, const Point &b) noexcept {
     return abs(((a.x * b.y) - (a.y * b.x))) / 2.0;
 }
 

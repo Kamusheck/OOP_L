@@ -21,11 +21,11 @@ TEST(HexagonTest, Area_Calculation) {
     EXPECT_NEAR(static_cast<double>(hex), expected_area, 1e-6);
 }
 
-TEST(HexagonTest, Centroid_Calculation) {
+TEST(HexagonTest, geom_centr_Calculation) {
     Hexagon hex({Point(0, 0), Point(4, 0), Point(6, 3),
                  Point(4, 6), Point(0, 6), Point(-2, 3)});
-    Point expected_centroid(2.0, 3.0);
-    EXPECT_EQ(hex.centroid(), expected_centroid);
+    Point expected_geom_centr(2.0, 3.0);
+    EXPECT_EQ(hex.geom_centr(), expected_geom_centr);
 }
 
 TEST(HexagonTest, OperatorEquality_SameHexagon) {
@@ -63,10 +63,10 @@ TEST(RombTest, Area_Calculation) {
     EXPECT_NEAR(static_cast<double>(romb), expected_area, 1e-6);
 }
 
-TEST(RombTest, Centroid_Calculation) {
+TEST(RombTest, geom_centr_Calculation) {
     Romb romb({Point(0, 0), Point(2, 2), Point(4, 0), Point(2, -2)});
-    Point expected_centroid(2.0, 0.0); 
-    EXPECT_EQ(romb.centroid(), expected_centroid);
+    Point expected_geom_centr(2.0, 0.0); 
+    EXPECT_EQ(romb.geom_centr(), expected_geom_centr);
 }
 
 TEST(RombTest, OperatorEquality_SameRomb) {

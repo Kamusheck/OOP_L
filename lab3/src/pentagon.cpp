@@ -3,7 +3,7 @@
 Pentagon::Pentagon() : Shape() {}
 
 Pentagon::Pentagon(const std::vector<Point>& vect) : Shape(vect) {
-    validate_v(5);  
+    validate_ups(5);  
 }
 
 Pentagon::Pentagon(const Pentagon& other) : Shape(other) {}

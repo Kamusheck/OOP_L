@@ -29,7 +29,7 @@ bool Shape::operator==(const Shape& other) const noexcept {
     return std::equal(points.begin(), points.end(), other.points.begin());
 }
 
-Point Shape::centroid() const {
+Point Shape::geom_centr() const {
     Point result(0.0, 0.0);
     for (const auto& p : points) {
         result += p;
@@ -41,7 +41,7 @@ double Shape::area() const noexcept {
     double total_area = 0.0;
     size_t n = points.size();
     for (size_t i = 1; i < n - 1; ++i) {
-        total_area += triangle_area(points[i] - points[0], points[i + 1] - points[0]);
+        total_area += area_piece(points[i] - points[0], points[i + 1] - points[0]);
     }
     return total_area;
 }
@@ -55,11 +55,10 @@ std::istream& Shape::read_from_stream(std::istream& in) {
     while (in >> point) {
         points.push_back(point);
     }
-    validate_v(3);
+    validate_ups(3);
     return in;
 }
 
-// Вывод в поток
 std::ostream& Shape::print_in_stream(std::ostream& out) const {
     out << '(';
     for (const auto& point : points) {
@@ -75,7 +74,7 @@ bool Shape::collinearnost(const Point& p1, const Point& p2, const Point& p3) con
 }
 
 
-void Shape::validate_v(int expected_count) {
+void Shape::validate_ups(int expected_count) {
     if (points.size() != expected_count) {
         throw std::invalid_argument("Error: Shape must have exactly " + std::to_string(expected_count) + " points.");
     }

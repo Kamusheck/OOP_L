@@ -7,7 +7,7 @@
 Hexagon::Hexagon() : Shape() {}
 
 Hexagon::Hexagon(const std::vector<Point>& vect) : Shape(vect) {
-    validate_v(6);  
+    validate_ups(6);  
 }
 
 Hexagon::Hexagon(const Hexagon& other) : Shape(other) {}

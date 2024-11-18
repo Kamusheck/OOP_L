@@ -1,6 +1,4 @@
-
 #pragma once
-
 #include <vector>
 #include <set>
 #include <cmath>
@@ -14,7 +12,7 @@ protected:
 
     bool collinearnost(const Point& p1, const Point& p2, const Point& p3) const;
 
-    void validate_v(int expected_count);
+    void validate_ups(int expected_count);
 
 public:
     Shape();
@@ -28,7 +26,7 @@ public:
 
     bool operator==(const Shape& other) const noexcept;
 
-    Point centroid() const;
+    Point geom_centr() const;
     double area() const noexcept;
     operator double() const noexcept;
 

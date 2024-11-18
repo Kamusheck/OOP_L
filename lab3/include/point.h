@@ -17,31 +17,24 @@ struct Point {
     Point operator-(const Point &other) const noexcept;
     Point &operator-=(const Point &other) noexcept;
     Point operator-() const noexcept;
-
     Point operator*(const double &labmda) const noexcept;
     Point &operator*=(const double &labmda) noexcept;
 
     double dot(const Point &other) const noexcept;
-
     double len() const noexcept;
 
     friend Point &operator~(Point &v) noexcept;
 
 
     bool operator==(const Point &other) const noexcept;
-
     bool operator!=(const Point &other) const noexcept;
-
     bool operator<(const Point &other) const  noexcept;
-
     bool operator>(const Point &other) const  noexcept;
 };
 
 Point operator*(double lambda, const Point &v) noexcept;
 
-double triangle_area(const Point &a, const Point &b) noexcept;
-
-
+double area_piece(const Point &a, const Point &b) noexcept;
 
 bool cmp_by_len(const Point &a, const Point &b) noexcept;
 

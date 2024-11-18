@@ -14,7 +14,6 @@ class Romb : public Shape {
     Romb &operator=(Romb &&other) noexcept;
     
     void check_equal_sides() const;
-    //
 };
 
 #endif // Romb_H

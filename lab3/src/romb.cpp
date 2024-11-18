@@ -3,7 +3,7 @@
 Romb::Romb() : Shape() {}
 
 Romb::Romb(const std::vector<Point>& vect) : Shape(vect) {
-    validate_v(4);
+    validate_ups(4);
     check_equal_sides();  
 }
 
