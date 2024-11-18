@@ -1,6 +1,0 @@
-/root/OOP_L/lab3/build/CMakeFiles/lab3.dir
-/root/OOP_L/lab3/build/CMakeFiles/tests.dir
-/root/OOP_L/lab3/build/CMakeFiles/devcontainer.dir
-/root/OOP_L/lab3/build/CMakeFiles/test.dir
-/root/OOP_L/lab3/build/CMakeFiles/edit_cache.dir
-/root/OOP_L/lab3/build/CMakeFiles/rebuild_cache.dir

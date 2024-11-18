@@ -1,27 +1,57 @@
 cmake_minimum_required(VERSION 3.10)
-project(lab3)
+project(LabWork1)
 
-# Установка стандарта C++
-set(CMAKE_CXX_STANDARD 17)
+# Set C++ standarts
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Включение папки include в пути для заголовочных файлов
-include_directories(include)
 
-# Подключение всех исходников
-add_executable(lab3
-    src/hexagon.cpp
-    src/method.cpp
-    src/pentagon.cpp
-    src/romb.cpp
-    main.cpp
-)
+# Include compilation options
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror=maybe-uninitialized")
 
-# Подключение тестов, если они присутствуют
-add_executable(tests tests.cpp)
+find_package(GTest QUIET)
+if(NOT GTest_FOUND)
+  # Install Google Test
+  include(FetchContent)
+  FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG v1.15.2
+    TLS_VERIFY false
+  )
+  # For Windows: Prevent overriding the parent project's compiler/linker settings
+  set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+  FetchContent_MakeAvailable(googletest)
+endif()
 
-# Добавляем все необходимые зависимости для работы с тестами
+# Пути к include и src директориям
+set(INCLUDE_DIR "${CMAKE_SOURCE_DIR}/include")
+set(SRC_DIR "${CMAKE_SOURCE_DIR}/src")
+set(TEST_DIR "${CMAKE_SOURCE_DIR}/tests")
+
+# Подключаем GTest
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS} ${INCLUDE_DIR})
+
+# Собираем все заголовки и исходные файлы в библиотеки
+file(GLOB_RECURSE LIB_HEADERS "${INCLUDE_DIR}/*.hpp")
+file(GLOB_RECURSE LIB_SOURCES "${SRC_DIR}/*.cpp")
+
+add_library(lab3_lib ${LIB_HEADERS} ${LIB_SOURCES})
+
+# Компилируем главный исполняемый файл
+add_executable(main_file_exe main.cpp)
+target_link_libraries(main_file_exe PRIVATE lab3_lib)
+
+# Настройка тестов
 enable_testing()
-add_test(NAME tests COMMAND tests)
 
-# Настройка Docker контейнера для разработки
-add_custom_target(devcontainer DEPENDS lab3 tests)
+# Функция для добавления тестов
+function(add_gtest_executable TEST_NAME TEST_SRC)
+    add_executable(${TEST_NAME} ${TEST_SRC})
+    target_link_libraries(${TEST_NAME} GTest::GTest GTest::Main lab3_lib)
+    add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
+endfunction()
+
+# Добавляем тесты
+add_gtest_executable(shape_tests ${TEST_DIR}/shape_tests.cpp)

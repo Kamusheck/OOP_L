@@ -1,32 +1,46 @@
-#include "romb.hpp"
+#include "romb.h"
 
-Romb::Romb() {
-    ups.resize(4); 
-}
-double Romb::Distance(const std::pair<double, double>& p1, const std::pair<double, double>& p2) const {
-    return std::sqrt(std::pow(p2.first - p1.first, 2) + std::pow(p2.second - p1.second, 2));
+Romb::Romb() : Shape() {}
+
+Romb::Romb(const std::vector<Point>& vect) : Shape(vect) {
+    validate_v(4);
+    check_equal_sides();  
 }
 
-// Проверка равенства всех сторон ромба
-void Romb::CheckEqualSides() const {
-    if (ups.getsize() != 4) {
-        throw std::logic_error("Ромб должен иметь 4 вершины.");
+Romb::Romb(const Romb& other) : Shape(other) {}
+
+Romb::Romb(Romb&& other) noexcept : Shape(std::move(other)) {}
+
+Romb& Romb::operator=(const Romb& other) {
+    if (this != &other) {
+        Shape::operator=(other);
     }
-    double side = Distance(ups[0], ups[1]);
-    for (size_t i = 1; i < ups.getsize(); ++i) {
-        if (std::abs(Distance(ups[i], ups[(i + 1) % 4]) - side) > 1e-6) {
-            throw std::logic_error("Все стороны ромба должны быть равны.");
-        }
+    return *this;
+}
+
+Romb& Romb::operator=(Romb&& other) noexcept {
+    if (this != &other) {
+        Shape::operator=(std::move(other)); 
+    }
+    return *this;
+}
+
+
+void Romb::check_equal_sides() const {
+    if (points.size() != 4) {
+        throw std::logic_error("Error: A Romb must have exactly 4 points.");
+    }
+
+    auto distance_squared = [](const Point& p1, const Point& p2) {
+        return (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y);
+    };
+
+    double side1 = distance_squared(points[0], points[1]);
+    double side2 = distance_squared(points[1], points[2]);
+    double side3 = distance_squared(points[2], points[3]);
+    double side4 = distance_squared(points[3], points[0]);
+
+    if (side1 != side2 || side2 != side3 || side3 != side4) {
+        throw std::logic_error("Error: All sides of a Romb must be equal.");
     }
 }
-
-void Romb::Input(std::istream& in) {
-    Method::Input(in);
-    validate_vertices(4); 
-    CheckEqualSides();
-}
-
-
-
-
-
