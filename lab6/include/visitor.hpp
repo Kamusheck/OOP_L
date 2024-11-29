@@ -67,7 +67,7 @@ class KnightV final : public Visitor{
         }
 };
 
-class VistorFactory{
+class FactoryV{
 public:
     static std::shared_ptr<Visitor> create_visitor(const NPCtype &type){
         std::shared_ptr<Visitor> result;

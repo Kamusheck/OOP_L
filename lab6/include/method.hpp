@@ -1,11 +1,11 @@
 #pragma once
-#include "factory.h"
-#include "npc.h"
+#include "factory.hpp"
+#include "npc.hpp"
 
-void save(const set_t &array, const std::string &filename);
+void save(const npc_set &array, const std::string &filename);
 
-set_t load(const std::string &filename);
+npc_set load(const std::string &filename);
 
-set_t fight(const set_t &array, size_t distance);
+npc_set fight(const npc_set &array, size_t distance);
 
-std::ostream &operator<<(std::ostream &os, const set_t &array);
+std::ostream &operator<<(std::ostream &os, const npc_set &array);
